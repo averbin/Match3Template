@@ -5,7 +5,16 @@
 -----------------------------------------------------------------------------------------
 
 local composer = require( "composer" )
+local element = require( "element" )
+local widget = require( "widget" )
 local scene = composer.newScene()
+
+local function handleButtonEvent( event )
+  if "ended" == event.phase then
+    print("Button is pressed and released")
+  end
+end
+
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
 -- -----------------------------------------------------------------------------------
@@ -17,6 +26,25 @@ function scene:create( event )
     background.x = display.contentCenterX
     background.y = display.contentCenterY
     background:scale(0.7, 0.8)
+
+    local button = widget.newButton(
+      {
+          label = "New Game",
+          onEvent = handleButtonEvent,
+          emboss = false,
+          shape = "roundedRect",
+          width = 100,
+          height = 40,
+          cornerRadius = 2,
+          fillColor = { default = {1, 0, 0, 1}, over = {1, 0.1, 0.7, 0.4}},
+          strokeColor = { default = {1, 0.4, 0,1}, over={0.8, 0.8, 1,1}},
+          labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+          strokeWidth = 4
+      }
+    )
+
+    button.x = display.contentCenterX
+    button.y = display.contentCenterY
 end
 
 -- show()

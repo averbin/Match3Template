@@ -6,4 +6,4 @@
 
 local composer = require "composer"
 
-composer.gotoScene("Menu")
+composer.gotoScene("menu")
