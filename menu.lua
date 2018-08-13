@@ -7,6 +7,7 @@
 local composer = require( "composer" )
 local element = require( "element" )
 local widget = require( "widget" )
+local gameData = require( "gameData" )
 local scene = composer.newScene()
 
 local function handlePlayButtonEvent( event )
@@ -17,13 +18,23 @@ end
 
 local function handleSoundButtonEvent( event )
   if "ended" == event.phase then
-    print("Sound button clicked")
+    if gameData.sound == "on" then
+      gameData.sound = "off"
+    else
+      gameData.sound = "on"
+    end
+    print("Sount tourn: " .. gameData.sound)
   end
 end
 
 local function handleMusicButtonEvent( event )
   if "ended" == event.phase then
-    print("Music turn on/off")
+    if gameData.music == "on" then
+      gameData.music = "off"
+    else
+      gameData.music = "on"
+    end
+    print("Music tourn: " .. gameData.music)
   end
 end
 
@@ -75,7 +86,7 @@ function scene:create( event )
     local musicButton = widget.newButton(
       {
         label = "Music",
-        onEvent = handleSoundButtonEvent,
+        onEvent = handleMusicButtonEvent,
         shape = "Circle",
         radius = 25,
         fillColor = { default = {0, 0, 1, 1}, over = {0.1, 0.7, 1.0, 0.4}},
