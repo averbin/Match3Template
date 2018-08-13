@@ -9,9 +9,21 @@ local element = require( "element" )
 local widget = require( "widget" )
 local scene = composer.newScene()
 
-local function handleButtonEvent( event )
+local function handlePlayButtonEvent( event )
   if "ended" == event.phase then
     print("Button is pressed and released")
+  end
+end
+
+local function handleSoundButtonEvent( event )
+  if "ended" == event.phase then
+    print("Sound button clicked")
+  end
+end
+
+local function handleMusicButtonEvent( event )
+  if "ended" == event.phase then
+    print("Music turn on/off")
   end
 end
 
@@ -27,15 +39,13 @@ function scene:create( event )
     background.y = display.contentCenterY
     background:scale(0.7, 0.8)
 
-    local button = widget.newButton(
+    local playButton = widget.newButton(
       {
-          label = "New Game",
-          onEvent = handleButtonEvent,
+          label = "Play",
+          onEvent = handlePlayButtonEvent,
           emboss = false,
-          shape = "roundedRect",
-          width = 100,
-          height = 40,
-          cornerRadius = 2,
+          shape = "Circle",
+          radius = 40,
           fillColor = { default = {1, 0, 0, 1}, over = {1, 0.1, 0.7, 0.4}},
           strokeColor = { default = {1, 0.4, 0,1}, over={0.8, 0.8, 1,1}},
           labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
@@ -43,8 +53,40 @@ function scene:create( event )
       }
     )
 
-    button.x = display.contentCenterX
-    button.y = display.contentCenterY
+    playButton.x = display.contentCenterX
+    playButton.y = display.contentCenterY
+
+    local soundButton = widget.newButton(
+      {
+        label = "Sound",
+        onEvent = handleSoundButtonEvent,
+        shape = "Circle",
+        radius = 25,
+        fillColor = { default = {0, 0, 1, 1}, over = {0.1, 0.7, 1.0, 0.4}},
+        strokeColor = { default = {1, 0.4, 0,1}, over={0.8, 0.8, 1,1}},
+        labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+        strokeWidth = 4
+      }
+    )
+
+    soundButton.x = display.contentCenterX + 120
+    soundButton.y = display.contentCenterY - 220
+
+    local musicButton = widget.newButton(
+      {
+        label = "Music",
+        onEvent = handleSoundButtonEvent,
+        shape = "Circle",
+        radius = 25,
+        fillColor = { default = {0, 0, 1, 1}, over = {0.1, 0.7, 1.0, 0.4}},
+        strokeColor = { default = {1, 0.4, 0,1}, over={0.8, 0.8, 1,1}},
+        labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+        strokeWidth = 4
+      }
+    )
+
+    musicButton.x = soundButton.x - 70
+    musicButton.y = display.contentCenterY - 220
 end
 
 -- show()
@@ -69,7 +111,6 @@ function scene:hide( event )
         timer.cancel( gameLoopTimer )
     end
 end
-
 
 -- destroy()
 function scene:destroy( event )
