@@ -12,29 +12,30 @@ local scene = composer.newScene()
 
 local function handlePlayButtonEvent( event )
   if "ended" == event.phase then
-    print("Button is pressed and released")
+    composer.removeScene("menu", false)
+    composer.gotoScene("levels", { effects = "crossFade", time = 333})
   end
 end
 
 local function handleSoundButtonEvent( event )
   if "ended" == event.phase then
-    if gameData.sound == "on" then
-      gameData.sound = "off"
+    if gameData.settings.sound == "on" then
+      gameData.settings.sound = "off"
     else
-      gameData.sound = "on"
+      gameData.settings.sound = "on"
     end
-    print("Sount tourn: " .. gameData.sound)
+    print("Sount tourn: " .. gameData.settings.sound)
   end
 end
 
 local function handleMusicButtonEvent( event )
   if "ended" == event.phase then
-    if gameData.music == "on" then
-      gameData.music = "off"
+    if gameData.settings.music == "on" then
+      gameData.settings.music = "off"
     else
-      gameData.music = "on"
+      gameData.settings.music = "on"
     end
-    print("Music tourn: " .. gameData.music)
+    print("Music tourn: " .. gameData.settings.music)
   end
 end
 
@@ -50,7 +51,7 @@ function scene:create( event )
     background.y = display.contentCenterY
     background:scale(0.7, 0.8)
 
-    local playButton = widget.newButton(
+    playButton = widget.newButton(
       {
           label = "Play",
           onEvent = handlePlayButtonEvent,
@@ -67,7 +68,7 @@ function scene:create( event )
     playButton.x = display.contentCenterX
     playButton.y = display.contentCenterY
 
-    local soundButton = widget.newButton(
+    soundButton = widget.newButton(
       {
         label = "Sound",
         onEvent = handleSoundButtonEvent,
@@ -83,7 +84,7 @@ function scene:create( event )
     soundButton.x = display.contentCenterX + 120
     soundButton.y = display.contentCenterY - 220
 
-    local musicButton = widget.newButton(
+    musicButton = widget.newButton(
       {
         label = "Music",
         onEvent = handleMusicButtonEvent,
@@ -116,16 +117,19 @@ function scene:hide( event )
     local phase = event.phase
 
     if ( phase == "will" ) then
-        -- Code here runs when the scene is on screen (but is about to go off screen)
+      -- Code here runs when the scene is on screen (but is about to go off screen)
     elseif ( phase == "did" ) then
-        -- Code here runs immediately after the scene goes entirely off screen
-        timer.cancel( gameLoopTimer )
+      -- Code here runs immediately after the scene goes entirely off screen
+      timer.cancel( gameLoopTimer )
     end
 end
 
 -- destroy()
 function scene:destroy( event )
     local sceneGroup = self.view
+    playButton:removeSelf()
+    soundButton:removeSelf()
+    musicButton:removeSelf()
     -- Code here runs prior to the removal of scene's view
 end
 
